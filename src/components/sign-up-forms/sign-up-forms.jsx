@@ -1,8 +1,9 @@
-import React , {useState} from 'react'
+import React , {useState , useContext} from 'react'
 import {signInWithGooglePopup , createUserDocumentFromAuth , signAuthUserWithEmailAndPassword } from '../../utils/firebase/firebase.utils';
 import FormInput from '../form-input/form-input';
 import "./sign-up-forms.style.scss"
 import Button from '../Button/Button';
+// import { UserContext } from '../../context/context.component';
 const defaultForm = {
 
     email :"",
@@ -14,14 +15,16 @@ const SignUpForm = () => {
 
     const [formField , setFormField] = useState(defaultForm);
     const { email, password } = formField;
-    console.log(formField);
+    // console.log(formField);
+    // const {setCurrentUser} = useContext(UserContext)
     const resethanddler = () => {
         setFormField(defaultForm)
     }
 
     const logGoogleUser = async () => {
-        const { user } = await signInWithGooglePopup();
-        await createUserDocumentFromAuth(user);
+        await signInWithGooglePopup();
+        // setCurrentUser(user);
+     
       };
          
     const handleSubmit = async(event) => {
@@ -29,13 +32,17 @@ const SignUpForm = () => {
         
 
         try{
-            const response = await signAuthUserWithEmailAndPassword(email , password)
-        console.log(response)
-       
-        resethanddler();
+            const {user} = await signAuthUserWithEmailAndPassword(email , password)
+            // setCurrentUser(user);
+            resethanddler();
         
         }catch(error){
-                console.log(error.code)
+                if(error.code === "auth/wrong-password"){ 
+                 alert(error.code)
+                }else if(error.code === "auth/user-not-found"){
+                    alert("User Not Found")
+                }
+
         }
     
     }
