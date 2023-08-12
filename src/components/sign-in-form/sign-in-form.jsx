@@ -38,10 +38,10 @@ const SignInForm = () => {
         }
     
     }
-const handleChange = (e) => {
-    const {name , value} = e.target;
-    setFormField({...formField , [name]:value});
-}
+            const handleChange = (e) => {
+                const {name , value} = e.target;
+                setFormField({...formField , [name]:value});
+            }
 
 
   return (
