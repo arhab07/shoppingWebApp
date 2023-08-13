@@ -4,7 +4,6 @@ import { CartContext } from '../../context/cart.component'
 
 import "./cart-icon.styles.scss"
 const Cart = ({cart}) => {
-    // const {quantity} = cart
     const {isOpen , setIsOpen , totalItemToCart} = useContext(CartContext)
 
     const toggleOpen = () => setIsOpen(!isOpen)

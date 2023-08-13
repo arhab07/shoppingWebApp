@@ -1,20 +1,23 @@
 import { createContext  , useState , useEffect} from "react";
 
- export const addItemsToCarts = (cartItems , addProductToCarts) => {
-  const existingItems =  cartItems.find(
-    (cartItem) => cartItem.id === addProductToCarts.id
-  )
+
+// Adding the items in carts
+export const addItemsToCarts = (cartItems , addProductToCart) => {
+  const existingItems = cartItems.find(
+    (item) => item.id === addProductToCart.id
+    )
     if(existingItems){
-      return cartItems.map((cartItem) =>
-      cartItem.id === addProductToCarts.id ? { ...cartItem , quantity : cartItem.quantity + 1} : cartItem
+    return  cartItems.map((cartItem) => 
+        cartItem.id === addProductToCart.id ?
+         {...cartItem , quantity: cartItem.quantity + 1} 
+         : cartItem
       )
     }
 
-return [...cartItems , { ...addProductToCarts , quantity:1}]
+    return [...cartItems , {...addProductToCart , quantity : 1}]
+}
 
- }
-
-
+// reduce the item in the cart items
 export const removeItemFromCheckout = (cartItems , removeItemFromCart) => {
   const existingItem = cartItems.find(
     (cartItem) => cartItem.id === removeItemFromCart.id
@@ -30,25 +33,13 @@ export const removeItemFromCheckout = (cartItems , removeItemFromCart) => {
     (cartItem) => cartItem.id === removeItemFromCart.id ? {...cartItem , quantity: cartItem.quantity - 1} : cartItem
   )
 }
-const clearCartItem = (cartItems, cartItemToClear) => cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
+
+// remove the item from the cart 
+const clearCartItem = (cartItems, cartItemToClear) => (
+  cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id)
+  );
 
 
-export const calculateTotalValue = (items) => {
-  let totalValue = 0;
-  for(const item of items){
-    totalValue += item.quantity
-
-  }
-  return totalValue
-
-}
-// const calculateTotalPrice = (cartItems) => {
-//   const newCartTotal = cartItems.reduce(
-//     (total, cartItem) => total + cartItem.quantity * cartItem.price,
-//     0
-//   );
-// return newCartTotal
-// }
 
 
 
@@ -65,11 +56,20 @@ export const CartContext = createContext({
 
 
 export const CartProvider = (({children})=> {
-    const [isOpen , setIsOpen] = useState(false)
+    const [isOpen , setIsOpen] = useState(false) //toggle the icon of the cart
      const [cartItems, setCartItems] = useState([]);
      const [totalPrice , setTotal] = useState();
-      const totalItemToCart = calculateTotalValue(cartItems)
-      useEffect(()=>{
+     const [totalItemToCart , setTotalItemToCart] = useState()
+      // const totalItemToCart = calculateTotalValue(cartItems)
+
+      useEffect(() => {
+        const newCartTotal = cartItems.reduce(  //total item to the cart (inside the icon )
+          (total , cartItem) => total + cartItem.quantity,
+          0
+          )
+          setTotalItemToCart(newCartTotal)
+      },[cartItems])
+      useEffect(()=>{ //setting the total pirce of an item
         const newCartTotal = cartItems.reduce(
           (total, cartItem) => total + cartItem.quantity * cartItem.price,
           0
