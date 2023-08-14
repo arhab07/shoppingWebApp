@@ -1,9 +1,9 @@
-import React , {useState , useContext} from 'react'
-import {signInWithGooglePopup , createUserDocumentFromAuth , signAuthUserWithEmailAndPassword } from '../../utils/firebase/firebase.utils';
+import React , {useState } from 'react'
+import {signInWithGooglePopup , signAuthUserWithEmailAndPassword } from '../../utils/firebase/firebase.utils';
 import FormInput from '../form-input/form-input';
 import "./sign-up-forms.style.scss"
-import Button from '../Button/Button';
-// import { UserContext } from '../../context/context.component';
+import Button, { BUTTON_TYPE_STYLE } from '../Button/Button';
+
 const defaultForm = {
 
     email :"",
@@ -73,8 +73,8 @@ const handleChange = (e) => {
             onChange={handleChange} />
 
               <div className='buttons-container'>
-            <Button buttonType={"default"}  type='submit' >Sign In</Button>
-            <Button buttonType={"google"} type="button" onClick={logGoogleUser} > Google Sign In</Button>
+            <Button buttonType={BUTTON_TYPE_STYLE.base}  type='submit' >Sign In</Button>
+            <Button buttonType={BUTTON_TYPE_STYLE.google} type="button" onClick={logGoogleUser} > Google Sign In</Button>
                 </div>
 
         </form>

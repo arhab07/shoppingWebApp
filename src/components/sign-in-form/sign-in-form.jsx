@@ -1,8 +1,8 @@
-import React , {useState , useContext} from 'react'
+import React , {useState} from 'react'
 import { createAuthUserWithEmailAndPassword  , createUserDocumentFromAuth } from '../../utils/firebase/firebase.utils';
 import FormInput from '../form-input/form-input';
 import "./sign-in-form.style.scss"
-import Button from '../Button/Button';
+import Button , {BUTTON_TYPE_STYLE} from '../Button/Button';
 // import { UserContext } from '../../context/context.component';
 const defaultForm = {
     displayName: "",
@@ -80,7 +80,7 @@ const SignInForm = () => {
             name="confirmPassword" 
             value={confirmPassword} 
             onChange={handleChange} />
-            <Button buttonType={"default"} name={"Sign Up"} type='submit' >Sign Up </Button>
+            <Button  name={"Sign Up"} type='submit' >Sign Up </Button>
         </form>
     </div>
   )
